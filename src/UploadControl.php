@@ -91,6 +91,19 @@ class UploadControl extends Forms\Controls\UploadControl
 	}
 
 
+	public function isPreset()
+	{
+		return !empty($this->path);
+	}
+
+
+
+	public function isDeleted()
+	{
+		return $this->delete;
+	}
+
+
 
 	/**
 	 * Loads HTTP data.
