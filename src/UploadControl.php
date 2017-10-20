@@ -137,7 +137,7 @@ class UploadControl extends Forms\Controls\UploadControl
 		$this->template->input = $input;
 		$this->template->_form = $this->getForm();
 
-		return Html::el()->add((string)$this->template);
+		return Html::el()->addHtml((string)$this->template);
 	}
 
 
