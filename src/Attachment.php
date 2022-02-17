@@ -2,8 +2,13 @@
 
 namespace Karzac\Forms;
 
-class Attachment extends \Nette\Object
+/**
+ * @property \Nette\Http\FileUpload|NULL $fileUpload
+ * @property bool $deleted
+ */
+class Attachment
 {
+	use \Nette\SmartObject;
 
 	private $deleted;
 

@@ -2,11 +2,11 @@
 
 namespace Karzac\Forms\Tests;
 
-use PHPUnit_Framework_TestCase;
 use Karzac\Forms\UploadControl;
 use Nette\Forms;
+use Nette\InvalidStateException;
 
-class UploadControlTest extends PHPUnit_Framework_TestCase
+class UploadControlTest extends \PHPUnit\Framework\TestCase
 {
 
 	/**
@@ -15,20 +15,20 @@ class UploadControlTest extends PHPUnit_Framework_TestCase
 	private $uploadControl;
 
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->uploadControl = new UploadControl();
 	}
 
 
-	public function testHtml()
-	{
-		$this->uploadControl->setValue('some-slug');
+	// public function testHtml()
+	// {
+	// 	$this->uploadControl->setValue('some-slug');
 
 
-//		$dq = Tester\DomQuery::fromHtml((string) $control->getControl());
-//		Assert::true($dq->has("input[value='some-slug']"));
-	}
+	// 	$dq = Tester\DomQuery::fromHtml((string) $control->getControl());
+	// 	Assert::true($dq->has("input[value='some-slug']"));
+	// }
 
 
 	public function testRegistration()
@@ -43,11 +43,11 @@ class UploadControlTest extends PHPUnit_Framework_TestCase
 		$this->assertSame($form, $control->getForm());
 	}
 
-	/**
-	 * @expectedException \Nette\InvalidStateException
-	 */
+
 	public function testRegistrationMultiple()
 	{
+		$this->expectException(InvalidStateException::class);
+
 		UploadControl::register();
 		UploadControl::register();
 	}

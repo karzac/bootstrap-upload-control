@@ -86,7 +86,7 @@ class UploadControl extends Forms\Controls\UploadControl
 	public function getValue()
 	{
 		$attachment = new Attachment($this->value);
-		$attachment->deleted = $this->delete;
+		$attachment->setDeleted($this->delete);
 		return $attachment;
 	}
 
