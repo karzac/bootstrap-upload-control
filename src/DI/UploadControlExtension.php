@@ -18,7 +18,7 @@ class UploadControlExtension extends DI\CompilerExtension
 	/**
 	 * @param Code\ClassType $class
 	 */
-	public function afterCompile(Code\ClassType $class)
+	public function afterCompile(Code\ClassType $class): void
 	{
 		parent::afterCompile($class);
 		$initialize = $class->methods['initialize'];

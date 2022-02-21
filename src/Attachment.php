@@ -23,28 +23,28 @@ class Attachment
 
 
 
-	public function isFilled()
+	public function isFilled(): bool
 	{
 		return (bool) $this->fileUpload->isOk();
 	}
 
 
 
-	public function setDeleted($value)
+	public function setDeleted($value): void
 	{
 		$this->deleted = $value;
 	}
 
 
 
-	public function getFileUpload()
+	public function getFileUpload(): ?\Nette\Http\FileUpload
 	{
 		return $this->fileUpload;
 	}
 
 
 
-	public function isDeleted()
+	public function isDeleted(): bool
 	{
 		return (bool)$this->deleted;
 	}

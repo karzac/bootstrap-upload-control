@@ -19,10 +19,7 @@ use Nette\Utils\Html;
 
 class UploadControl extends Forms\Controls\UploadControl
 {
-	/**
-	 * @var bool
-	 */
-	private static $registered = FALSE;
+	private static bool $registered = FALSE;
 
 	/**
 	 * @var ITemplate
@@ -31,7 +28,7 @@ class UploadControl extends Forms\Controls\UploadControl
 
 	private $path;
 
-	private $delete = FALSE;
+	private bool $delete = FALSE;
 
 
 
@@ -40,7 +37,7 @@ class UploadControl extends Forms\Controls\UploadControl
 	 *
 	 * @param  Nette\ComponentModel\IComponent
 	 */
-	public function attached($form)
+	public function attached(\Nette\ComponentModel\IComponent $form): void
 	{
 		parent::attached($form);
 		$this->template = $this->createTemplate();
@@ -48,13 +45,10 @@ class UploadControl extends Forms\Controls\UploadControl
 
 
 
-	/**
-	 * @return \Nette\Bridges\ApplicationLatte\Template
-	 */
-	protected function createTemplate()
+	protected function createTemplate(): \Nette\Bridges\ApplicationLatte\Template
 	{
 		$latte = new Latte\Engine;
-		$latte->onCompile[] = function ($latte) {
+		$latte->onCompile[] = function ($latte): void {
 			Bridges\FormsLatte\FormMacros::install($latte->getCompiler());
 		};
 		return new Bridges\ApplicationLatte\Template($latte);
@@ -65,7 +59,7 @@ class UploadControl extends Forms\Controls\UploadControl
 	/**
 	 * @return UI\ITemplate|Bridges\ApplicationLatte\Template
 	 */
-	public function getTemplate()
+	public function getTemplate(): \Karzac\Forms\ITemplate
 	{
 		if ($this->template === NULL) {
 			$this->template = $this->createTemplate();
@@ -75,7 +69,7 @@ class UploadControl extends Forms\Controls\UploadControl
 
 
 
-	public function setValue($value)
+	public function setValue($value): self
 	{
 		$this->path = $value;
 		return $this;
@@ -83,7 +77,7 @@ class UploadControl extends Forms\Controls\UploadControl
 
 
 
-	public function getValue()
+	public function getValue(): \Karzac\Forms\Attachment
 	{
 		$attachment = new Attachment($this->value);
 		$attachment->setDeleted($this->delete);
@@ -91,14 +85,14 @@ class UploadControl extends Forms\Controls\UploadControl
 	}
 
 
-	public function isPreset()
+	public function isPreset(): bool
 	{
 		return !empty($this->path);
 	}
 
 
 
-	public function isDeleted()
+	public function isDeleted(): bool
 	{
 		return $this->delete;
 	}
@@ -107,9 +101,8 @@ class UploadControl extends Forms\Controls\UploadControl
 
 	/**
 	 * Loads HTTP data.
-	 * @return void
 	 */
-	public function loadHttpData()
+	public function loadHttpData(): void
 	{
 		$this->path = $this->getForm()->getHttpData(Nette\Forms\Form::DATA_LINE, $this->getHtmlName() . "-path");
 		$this->delete = (bool)$this->getForm()->getHttpData(Nette\Forms\Form::DATA_LINE, $this->getHtmlName() . "-removed");
@@ -121,7 +114,7 @@ class UploadControl extends Forms\Controls\UploadControl
 	/**
 	 * Generates control's HTML element.
 	 */
-	public function getControl()
+	public function getControl(): \Nette\Utils\Html
 	{
 		$input = parent::getControl();
 
@@ -143,16 +136,15 @@ class UploadControl extends Forms\Controls\UploadControl
 
 
 	/**
-	 * @param string $method
 	 * @throws \Nette\InvalidStateException
 	 */
-	public static function register($method = 'addAttachment')
+	public static function register(string $method = 'addAttachment'): void
 	{
 		if (static::$registered) {
 			throw new \Nette\InvalidStateException('Upload control already registered.');
 		}
 		static::$registered = TRUE;
-		\Nette\Forms\Container::extensionMethod($method, function (\Nette\Forms\Container $form, $name, $label = NULL) {
+		\Nette\Forms\Container::extensionMethod($method, function (\Nette\Forms\Container $form, $name, $label = NULL): self {
 			$component = new static($label);
 			$form->addComponent($component, $name);
 			return $component;
