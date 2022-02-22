@@ -31,18 +31,13 @@ class UploadControl extends Forms\Controls\UploadControl
 	private bool $delete = FALSE;
 
 
-
-	/**
-	 * This method will be called when the component becomes attached to Form
-	 *
-	 * @param  Nette\ComponentModel\IComponent
-	 */
-	public function attached(\Nette\ComponentModel\IComponent $form): void
+	public function __construct($label)
 	{
-		parent::attached($form);
-		$this->template = $this->createTemplate();
+		parent::__construct($label);
+		$this->monitor(\Nette\Forms\Form::class, function ($form): void {
+			$this->template = $this->createTemplate();
+		});
 	}
-
 
 
 	protected function createTemplate(): \Nette\Bridges\ApplicationLatte\Template
@@ -55,11 +50,10 @@ class UploadControl extends Forms\Controls\UploadControl
 	}
 
 
-
 	/**
 	 * @return UI\ITemplate|Bridges\ApplicationLatte\Template
 	 */
-	public function getTemplate(): \Karzac\Forms\ITemplate
+	public function getTemplate(): UI\ITemplate
 	{
 		if ($this->template === NULL) {
 			$this->template = $this->createTemplate();
@@ -68,13 +62,11 @@ class UploadControl extends Forms\Controls\UploadControl
 	}
 
 
-
 	public function setValue($value): self
 	{
 		$this->path = $value;
 		return $this;
 	}
-
 
 
 	public function getValue(): \Karzac\Forms\Attachment
@@ -91,12 +83,10 @@ class UploadControl extends Forms\Controls\UploadControl
 	}
 
 
-
 	public function isDeleted(): bool
 	{
 		return $this->delete;
 	}
-
 
 
 	/**
@@ -108,7 +98,6 @@ class UploadControl extends Forms\Controls\UploadControl
 		$this->delete = (bool)$this->getForm()->getHttpData(Nette\Forms\Form::DATA_LINE, $this->getHtmlName() . "-removed");
 		parent::loadHttpData();
 	}
-
 
 
 	/**
@@ -132,7 +121,6 @@ class UploadControl extends Forms\Controls\UploadControl
 
 		return Html::el()->addHtml((string)$this->template);
 	}
-
 
 
 	/**
