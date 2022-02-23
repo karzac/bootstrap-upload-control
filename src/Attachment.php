@@ -15,19 +15,16 @@ class Attachment
 	private $fileUpload;
 
 
-
 	public function __construct(\Nette\Http\FileUpload $fileUpload = NULL)
 	{
 		$this->fileUpload = $fileUpload;
 	}
 
 
-
 	public function isFilled(): bool
 	{
-		return (bool) $this->fileUpload->isOk();
+		return (bool)$this->fileUpload->isOk();
 	}
-
 
 
 	public function setDeleted($value): void
@@ -36,17 +33,25 @@ class Attachment
 	}
 
 
-
 	public function getFileUpload(): ?\Nette\Http\FileUpload
 	{
 		return $this->fileUpload;
 	}
 
 
-
 	public function isDeleted(): bool
 	{
 		return (bool)$this->deleted;
+	}
+
+	public function getSize(): int
+	{
+		return $this->fileUpload->size;
+	}
+
+	public function getError(): int
+	{
+		return $this->fileUpload->error;
 	}
 
 
